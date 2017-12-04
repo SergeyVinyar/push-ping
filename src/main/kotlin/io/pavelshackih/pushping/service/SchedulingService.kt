@@ -17,7 +17,7 @@ class SchedulingService {
     @Autowired
     lateinit var deviceRepository: DeviceRepository
 
-    @Scheduled(fixedRate = 1800000)
+    @Scheduled(cron = "0 30 9-21 * * *")
     fun sendPushes() {
         val list = deviceRepository.findAll()
         if (list.isNotEmpty()) {
