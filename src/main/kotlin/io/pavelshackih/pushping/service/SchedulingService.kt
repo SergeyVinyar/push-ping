@@ -17,7 +17,7 @@ class SchedulingService {
     @Autowired
     lateinit var deviceRepository: DeviceRepository
 
-    @Scheduled(cron = "0 30 22,23,0-10 * * *")
+    @Scheduled(cron = "0 30 9-22 * * *", zone = "Europe/Moscow")
     fun sendPushes() {
         val list = deviceRepository.findAll()
         if (list.isNotEmpty()) {
