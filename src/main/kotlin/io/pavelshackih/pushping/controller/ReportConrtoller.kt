@@ -50,7 +50,7 @@ class ReportConrtoller {
         // Считаем среднеквадратичное отклоние
         val sigma = Math.sqrt(periodList.map { Math.pow((it - averageSecs).toDouble(), 2.toDouble()) }.sum() / periodList.count() )
 
-        // Считаем диапазон времени доставки, в который попадет 90% всех значений в соотв-ии с распределением Гаусса (1.64 сигмы)
+        // Считаем диапазон времени доставки, в который значения попадают с 90% вероятностью в соотв-ии с распределением Гаусса (+/- 1.64 сигмы)
         val minSecs = averageSecs - 1.64 * sigma;
         val maxSecs = averageSecs + 1.64 * sigma;
 
