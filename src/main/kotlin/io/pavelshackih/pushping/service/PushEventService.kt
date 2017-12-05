@@ -25,11 +25,11 @@ class PushEventService {
     }
 
     fun proceedReceipt(messageId: String) {
-        messageId.split(":").lastOrNull()?.let {
-            repository.findByMessageId(it).firstOrNull()?.let {
+        messageId.split(":").lastOrNull()?.let { id ->
+            repository.findByMessageId(id).firstOrNull()?.let {
                 val dateTime = LocalDateTime.now()
                 val event = PushEvent(null, it.device, dateTime, dateTime.toString(),
-                        PushEventType.RECEIVED, messageId)
+                        PushEventType.RECEIVED, id)
                 repository.save(event)
             }
         }
