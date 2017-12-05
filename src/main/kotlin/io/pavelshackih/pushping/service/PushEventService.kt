@@ -19,14 +19,17 @@ class PushEventService {
     private lateinit var deviceRepository: DeviceRepository
 
     fun proceedSent(messageId: String, device: Device) {
-        val event = PushEvent(0, device, LocalDateTime.now(), PushEventType.SENT, messageId)
+        val dateTime = LocalDateTime.now()
+        val event = PushEvent(0, device, dateTime, dateTime.toString(), PushEventType.SENT, messageId)
         repository.save(event)
     }
 
     fun proceedReceipt(messageId: String) {
-        messageId.split(":").lastOrNull()?.let {
-            repository.findByMessageId(it).firstOrNull()?.let {
-                val event = PushEvent(null, it.device, LocalDateTime.now(), PushEventType.RECEIVED, messageId)
+        messageId.split(":").lastOrNull()?.let { id ->
+            repository.findByMessageId(id).firstOrNull()?.let {
+                val dateTime = LocalDateTime.now()
+                val event = PushEvent(null, it.device, dateTime, dateTime.toString(),
+                        PushEventType.RECEIVED, id)
                 repository.save(event)
             }
         }
