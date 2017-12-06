@@ -31,18 +31,18 @@ class ReportConrtoller {
         val receivedTimeMap = receivedList.associateBy({ it.messageId }, { it.dateTime })
 
         // Считаем время до подтверждения (в секундах)
-        val periodList = ArrayList<Long>()
+        val periodList = ArrayList<Double>()
         receivedTimeMap.forEach({
             if (sentTimeMap.containsKey(it.key)) {
-                periodList.add(Duration.between(it.value, sentTimeMap[it.key]).toMillis() / 1000)
+                periodList.add(Duration.between(sentTimeMap[it.key], it.value).toMillis().toDouble() / 1000)
             }
         })
 
         // Считаем среднее время до подтверждения (в секундах)
-        val averageSecs = (periodList.sum() / periodList.count()).toDouble()
+        val averageSecs = (periodList.sum() / periodList.count())
 
         // Считаем среднеквадратичное отклоние
-        val sigma = Math.sqrt(periodList.map { Math.pow((it - averageSecs), 2.toDouble()) }.sum() / periodList.count())
+        val sigma = Math.sqrt(periodList.map { Math.pow((it - averageSecs), 2.toDouble()) }.sum() / periodList.count() )
 
         // Считаем диапазон времени доставки, в который значения попадают с 90% вероятностью в соотв-ии с распределением Гаусса (+/- 1.64 сигмы)
         val minSecs = averageSecs - 1.64 * sigma
